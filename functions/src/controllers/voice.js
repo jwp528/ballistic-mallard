@@ -1,4 +1,5 @@
 const { twilio, timeout, VoiceResponse } = require("../helpers/twilio");
+const firebase = require("firebase-functions");
 
 const welcome = (request, response) => {
     const twiml = new VoiceResponse();
@@ -44,8 +45,9 @@ const getCallerInfo = (request, response) => {
 const notify = (request, response) => {
     try {
         const twiml = new VoiceResponse();
-        const accountSid = "ACe6b2c3dba83236031ee088a1d3b6cceb";
-        const authToken = "9051a45b01417f8503cb1936b7d26098";
+        console.log(firebase.config());
+        const accountSid = firebase.config().config.twilio_account_sid;
+        const authToken = firebase.config().config.twilio_auth_token;
         const client = require("twilio")(accountSid, authToken);
         const params = request.body;
         client.messages
